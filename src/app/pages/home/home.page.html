@@ -1,0 +1,77 @@
+<ion-content>
+  <ion-grid class="Header">
+    <ion-row class="container_nav">
+      <ion-col size=3 class="left_nav" [ngClass]="isIOS? 'ios' : '' ">
+        <ion-button fill='clear' class="side_btn">{{'Cancel' | translate}}</ion-button>
+      </ion-col>
+      <ion-col class="center_nav">
+        <p>
+          {{'Add Participants' | translate}}
+        </p>
+        <p>
+          {{selectedContact.length}}/{{contactsList.length}}
+        </p>
+      </ion-col>
+      <ion-col size=3 class="right_nav">
+        <ion-button fill='clear' class="side_btn" [disabled]='selectedContact.length <= 0'>{{'Next' | translate}}</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-searchbar show-cancel-button="focus" 
+        (ionChange)="filterItems()"
+        (ionClear)='searchResult = contactsList'
+         [(ngModel)]="searchQuery" class="search_bar"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="selectedContact.length > 0" >
+    <ion-row>
+      <ion-col>
+        <swiper #swiper [config]="config" (slideChange)="onSlideChange()" class="group_swiper">
+          <ng-template swiperSlide *ngFor="let item of selectedContact">
+            <div class="div_delete" (click)='delete(item.id)'>
+              <ion-icon name="close-outline"></ion-icon>
+            </div>
+            <div class="selectd-img">
+              <img src="assets/imgs/avatar.png">
+            </div>
+          </ng-template>
+        </swiper>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-item-divider class="item-divider">
+    <ion-button *ngIf="selectedContact.length == contactsList.length"   fill='clear' slot="end" class="side_btn" (click)='UnselectAll()'>{{'UnSelect All' | translate}}</ion-button>
+
+    <ion-button *ngIf="selectedContact.length != contactsList.length" fill='clear' slot="end" class="side_btn" (click)='selectAll()'>{{'Select All' | translate}}</ion-button>
+  </ion-item-divider>
+  <ion-grid class="ion-no-padding grid-empty" *ngIf="!contactsList || contactsList.length<=0">
+    <ion-row class="ion-no-padding">
+      <ion-col size="12" class="ion-no-padding">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-no-padding">
+      <ion-col size="12" class="ion-no-padding">
+        <h4>{{'No Contacts'|translate}}</h4>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-list   >
+    <ion-item *ngFor="let contact of searchResult">
+      <ion-avatar slot=start>
+        <img src="assets/imgs/avatar.png">
+      </ion-avatar>
+      <ion-label>{{contact.displayName}}</ion-label>
+      <ion-checkbox slot=end color="primary" mode='ios' [(ngModel)]='contact.checked' (ionChange)='getSelcetdContcat()'></ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+  <div class="index_div">
+    <p>
+      A B C D E F G H I J K L M N O P Q R S T U V W X Y Z #
+    </p>
+  </div>
+</ion-content>

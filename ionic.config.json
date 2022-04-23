@@ -1,7 +1,10 @@
 {
   "name": "Ionic-WhatsApp",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {
+      "enabled": false
+    },
+    "cordova": {}
   },
   "type": "angular"
 }
