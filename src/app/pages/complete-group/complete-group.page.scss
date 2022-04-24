@@ -1,0 +1,32 @@
+ion-toolbar {
+    --background: #f7f7f7;
+}
+.input-item{
+    --border-width: 1px 0px 1px 0 !important;
+}
+.icon-cam{
+    text-align: center;
+    font-size: 32px;
+    color: #3dc2ff;
+    padding: 15px;
+}
+.txt-guide{
+    color: #c7c7c7;
+    font-size: 13px;
+    margin-top: -4px;
+}
+.item-divider{
+    --background: #f6f6f6 !important;
+}
+.group_swiper{
+    padding: 10px !important;
+
+}
+.selectd-img{
+    img{
+        border-radius: 50% !important;
+        min-width: 64px;
+        min-height: 64px;
+    }
+    
+}

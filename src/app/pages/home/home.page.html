@@ -13,7 +13,7 @@
         </p>
       </ion-col>
       <ion-col size=3 class="right_nav">
-        <ion-button fill='clear' class="side_btn" [disabled]='selectedContact.length <= 0'>{{'Next' | translate}}</ion-button>
+        <ion-button fill='clear' class="side_btn" (click)='goToCompletePage()' [disabled]='selectedContact.length <= 0'>{{'Next' | translate}}</ion-button>
       </ion-col>
     </ion-row>
     <ion-row>

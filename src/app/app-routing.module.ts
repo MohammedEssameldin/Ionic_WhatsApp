@@ -15,6 +15,14 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   },
+  {
+    path: 'complete-group',
+    loadChildren: () => import('./pages/complete-group/complete-group.module').then( m => m.CompleteGroupPageModule)
+  },
+  {
+    path: 'chat-detail',
+    loadChildren: () => import('./pages/chat-detail/chat-detail.module').then( m => m.ChatDetailPageModule)
+  },
 ];
 
 @NgModule({

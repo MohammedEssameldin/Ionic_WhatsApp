@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SwiperOptions } from 'swiper';
 import { debounceTime } from "rxjs/operators";
+import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 declare var ContactsX: any;
 
@@ -11,11 +13,18 @@ declare var ContactsX: any;
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  public contactsList=[];
-  public selectedContact=[];
-  public searchQuery:String ='';
-  public searchResult;
-  constructor(private platform: Platform,
+  public contactsList = [];
+  public selectedContact = [];
+  public searchQuery: String = '';
+  public searchResult: any;
+  public config: SwiperOptions = {
+    slidesPerView: 5,
+    spaceBetween: 10,
+  };
+
+  constructor(public platform: Platform,
+    public router: Router,
+    public shared: SharedService
   ) { }
 
   ngOnInit() {
@@ -26,17 +35,13 @@ export class HomePage implements OnInit {
     return this.platform.is('ios');
   }
 
-  config: SwiperOptions = {
-    slidesPerView: 5,
-    spaceBetween: 10,
-  };
+
 
   onSlideChange() {
     console.log('onSlideChange');
   }
-  loadContacts() {
-    console.log('loadContacts');
-    ContactsX.hasPermission((success) => {
+  async loadContacts() {
+   await ContactsX.hasPermission((success) => {
       console.log(success);
       if (!success.read) {
         this.requestPermission().then(res => {
@@ -55,20 +60,16 @@ export class HomePage implements OnInit {
   public requestPermission(): Promise<boolean> {
     return new Promise((resolve) => {
       ContactsX.requestPermission((success) => {
-        console.log(success);
         resolve(success.read);
       }, (error) => {
         console.error(error);
       });
     });
   }
-  findContacts() {
-    ContactsX.find((success) => {
-      console.log(success);
+  async findContacts() {
+   await ContactsX.find((success) => {
       this.contactsList = success;
-      this.searchResult = this.contactsList 
-      console.log('contacts', this.contactsList);
-      
+      this.searchResult = this.contactsList
     }, (error) => {
       console.error(error);
     }, {
@@ -77,45 +78,39 @@ export class HomePage implements OnInit {
       },
     });
   }
-  getSelcetdContcat(){
-    console.log('getSelcetdContcat',this.contactsList);
-    
-     this.selectedContact = this.contactsList.filter(c=>{
+  getSelcetdContcat() {
+    this.selectedContact = this.contactsList.filter(c => {
       return c.checked;
     })
-    console.log(this.selectedContact);
-    
-
   }
-  delete(id){
-    this.selectedContact = this.selectedContact.filter(c=>{
-      if(c.id == id){
+  delete(id) {
+    this.selectedContact = this.selectedContact.filter(c => {
+      if (c.id == id) {
         c.checked = false;
       }
       return c.id != id;
     })
   }
-  selectAll(){
+  selectAll() {
     this.contactsList.forEach(element => {
       element.checked = true;
     });
   }
 
-  UnselectAll(){
+  UnselectAll() {
     this.contactsList.forEach(element => {
       element.checked = false;
     });
   }
 
-  filterItems(){ 
-    console.log('filterItems');
-    
+  filterItems() {
     this.searchResult = this.contactsList.filter((item) => {
-      console.log(item);
-            console.log(this.searchQuery);
-
-      console.log(item.displayName.toLowerCase().indexOf(this.searchQuery.toLowerCase()) > -1)
-        return item.displayName.toLowerCase().indexOf(this.searchQuery.toLowerCase()) > -1;
-    });     
+      return item.displayName.toLowerCase().indexOf(this.searchQuery.toLowerCase()) > -1;
+    });
+  }
+  goToCompletePage() {
+    this.shared.selectedContact = this.selectedContact;
+    this.shared.contactsList = this.contactsList;
+    this.router.navigate(['/complete-group'])
   }
 }

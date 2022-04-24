@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" icon="chevron-back-outline" color=primary></ion-back-button>
+    </ion-buttons>
+
+    <ion-item lines="none" class="user-toolbar">
+      <ion-avatar slot="start">
+        <img [src]="groupData.groupImg">
+      </ion-avatar>
+      <ion-label class="ion-no-margin">
+        {{groupData.groupName}}
+        <p class="ion-no-margin" style="font-size: 10px;">
+          <span *ngFor="let item of groupData.groupMember">
+            {{item.displayName}} ,
+          </span>
+        </p>
+      </ion-label>
+    </ion-item>
+
+    <ion-buttons slot="end">
+
+      <ion-button color=primary>
+        <ion-icon slot="icon-only" name="call-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: url(assets/imgs/chat-bg.svg);">
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar style="height: auto;">
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon slot="icon-only" name="add-outline" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-textarea row=1 placeholder="message"></ion-textarea>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="camera-outline" color="primary"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="mic-outline" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

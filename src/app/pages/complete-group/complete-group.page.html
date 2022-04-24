@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="primary">
+        <ion-back-button text="Back" icon="chevron-back-outline"></ion-back-button>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center" style="font-size: 15px;">{{'New Group' | translate}}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary">
+        <ion-button fill='clear' [disabled]='charsUsed <= 0' (click)='goToChatPage()' class="side_btn">{{'Create' | translate}}</ion-button>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid style="margin-top: 30px;">
+    <ion-row>
+      <ion-col size=3>
+        <ion-avatar style="background: #f2f2f2;" *ngIf="!img"  (click)='presentPhotoAction()'>
+          <ion-icon name="camera-outline" class="icon-cam"></ion-icon>
+        </ion-avatar>
+        <ion-avatar  *ngIf="img"  (click)='presentPhotoAction()'>
+          <img [src]="img" />
+        </ion-avatar>
+      </ion-col>
+      <ion-col>
+        <ion-item class="input-item">
+          <ion-input [formControl]="groupName" placeholder="{{'Group Name' | translate}}"></ion-input>
+          <ion-note slot=end style="color: #808080;">
+            {{charsAllowed - charsUsed}} 
+          </ion-note>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size='9' offset=3>
+        <p class="txt-guide">
+          {{'Please provide the group subject and optional group icon' | translate}}
+        </p>
+      </ion-col>
+    </ion-row>
+    
+  </ion-grid>
+  <ion-item-divider class="item-divider">
+    <p class="txt-guide">
+      {{'Participants' | translate}} {{selectedContact.length}} {{'OF' | translate}} {{contactsList.length}}
+    </p>
+  </ion-item-divider>
+
+  <ion-grid *ngIf="selectedContact.length > 0" >
+    <ion-row>
+      <ion-col>
+        <swiper #swiper [config]="config" class="group_swiper">
+          <ng-template swiperSlide *ngFor="let item of selectedContact">
+            <div class="selectd-img">
+              <img src="assets/imgs/avatar.png">
+            </div>
+          </ng-template>
+        </swiper>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+</ion-content>
